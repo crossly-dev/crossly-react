@@ -80,7 +80,7 @@ Your active listings as a responsive grid. Sold items show "Sold" in place of a 
 |---|---|---|---|
 | `limit` | `number` | `12` | How many to show, 1–48. |
 | `q` | `string` | | Free-text filter over title and brand. See [Known limitations](#known-limitations). |
-| `onLoaded` | `(detail: { listings: EmbedListing[] }, event) => void` | | `crossly:loaded`: the listings that were rendered. |
+| `onLoaded` | `(detail: { listings: EmbedListing[] }, event) => void` | | `crossly:loaded`: the listings that were rendered. Not fired for an empty catalog (the element shows "Nothing listed right now."). |
 
 `EmbedListing` is `{ id, title, description, priceCents, imageUrl, brand, size, condition, available }`. Money is
 always integer cents.
