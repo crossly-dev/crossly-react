@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: React ${{ matrix.react }}: typecheck, build, test, pack
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: ['18', '19']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      # No lockfile is committed yet, so this is `npm install`, not `npm ci`.
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Use React ${{ matrix.react }}
+        if: matrix.react == '18'
+        run: npm install --no-save --no-audit --no-fund react@18 react-dom@18 @types/react@18 @types/react-dom@18
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      - name: npm pack (dry run)
+        run: npm pack . --dry-run
