@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   ci:
-    name: React ${{ matrix.react }}: typecheck, build, test, pack
+    name: "React ${{ matrix.react }} - typecheck, build, test, pack"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
